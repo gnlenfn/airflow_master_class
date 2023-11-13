@@ -1,6 +1,4 @@
 venv
 .idea
 
-logs
-plugins
-config
+__pycache__
