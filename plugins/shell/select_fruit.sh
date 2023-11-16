@@ -1,10 +1,11 @@
 FRUIT=$1
-if [$FRUIT = APPLE]; then
-    echo "Yo Selected Apple!"
-elif [$FRUIT = ORANGE]; then
-    echo "Yo Selected Orange!"
-elif [$FRUIT = GRAPE]; then
-    echo "Yo Selected Grape!"
+if [ $FRUIT == APPLE ]; then
+	echo "1"
+
+elif [ $FRUIT = ORANGE ]; then
+	echo "2"
+
 else
-    echo "You Selected other Fruit!"
+	echo "0"
+
 fi
