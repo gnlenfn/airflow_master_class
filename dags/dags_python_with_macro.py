@@ -19,7 +19,7 @@ with DAG(
           }
           )
     def get_datetime_marco(**kwargs):
-        template_dict = kwargs.get('template_dict') or {}
+        template_dict = kwargs.get('templates_dict') or {}
         if template_dict:
             start_date = template_dict.get('start_date') or "start_date 없음"
             end_date = template_dict.get('end_date') or 'end_date 없음'
