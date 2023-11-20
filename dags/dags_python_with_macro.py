@@ -19,10 +19,10 @@ with DAG(
           }
           )
     def get_datetime_marco(**kwargs):
-        template_dict = kwargs.get('templates_dict') or {}
-        if template_dict:
-            start_date = template_dict.get('start_date') or "start_date 없음"
-            end_date = template_dict.get('end_date') or 'end_date 없음'
+        templates_dict = kwargs.get('templates_dict') or {}
+        if templates_dict:
+            start_date = templates_dict.get('start_date') or "start_date 없음"
+            end_date = templates_dict.get('end_date') or 'end_date 없음'
 
             print(start_date)
             print(end_date)
@@ -36,7 +36,7 @@ with DAG(
         prev_month_first_day = data_interval_end.in_timezone("Asia/Seoul") + relativedelta(months=-1, day=1)
         prev_month_last_day = data_interval_end.in_timezone("Asia/Seoul").replace(day=1) + relativedelta(days=-1)
 
-        print(prev_month_first_day)
-        print(prev_month_last_day)
+        print(prev_month_first_day.strftime("%Y-%m-%d"))
+        print(prev_month_last_day.strftime("%Y-%m-%d"))
 
     get_datetime_marco() >> get_datetime_calc()
