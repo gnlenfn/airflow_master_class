@@ -32,3 +32,5 @@ with DAG(
         print(f"data_interval_start: {str(kwargs['data_interval_start'])}")
         print(f"data_interval_end: {str(kwargs['data_interval_end'])}")
         print(f"task_instance: {str(kwargs['ti'])}")
+
+    python_t1 >> python_function2()
