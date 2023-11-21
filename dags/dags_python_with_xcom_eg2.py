@@ -12,7 +12,7 @@ with DAG(
 
     @task(task_id="python_xcom_push_by_return")
     def xcom_push_result(**kwargs):
-        return "Seccess"
+        return "Success"
 
     @task(task_id="python_xcom_pull_1")
     def xcom_pull_1(**kwargs):
