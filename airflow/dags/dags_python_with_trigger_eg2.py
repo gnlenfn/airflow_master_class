@@ -1,10 +1,8 @@
 from airflow import DAG
 import pendulum
 
-from airflow.operators.python import PythonOperator
 from airflow.operators.bash import BashOperator
 from airflow.decorators import task
-from airflow.exceptions import AirflowException
 
 with DAG(
     dag_id="dags_python_with_trigger_eg2",
