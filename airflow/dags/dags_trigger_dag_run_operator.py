@@ -5,7 +5,7 @@ from airflow.operators.bash import BashOperator
 from airflow.operators.trigger_dagrun import TriggerDagRunOperator
 
 with DAG(
-    dag_id="dags_trigger_dags+run_operator",
+    dag_id="dags_trigger_dags_run_operator",
     schedule="30 9 * * *",
     start_date=pendulum.datetime(2023, 11, 1, tz="Asia/Seoul"),
     catchup=False,
