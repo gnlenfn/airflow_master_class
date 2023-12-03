@@ -77,6 +77,7 @@ x-airflow-common:
     - ${AIRFLOW_PROJ_DIR:-.}/airflow/logs:/opt/airflow/logs
     - ${AIRFLOW_PROJ_DIR:-.}/airflow/config:/opt/airflow/config
     - ${AIRFLOW_PROJ_DIR:-.}/airflow/plugins:/opt/airflow/plugins
+    - ${AIRFLOW_PROJ_DIR:-.}/airflow/files:/opt/airflow/files
   user: "${AIRFLOW_UID:-50000}:0"
   depends_on:
     &airflow-common-depends-on
@@ -86,6 +87,21 @@ x-airflow-common:
       condition: service_healthy
 
 services:
+  postgres_custom:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: gnlenfn 
+      POSTGRES_PASSWORD: gnlenfn
+      POSTGRES_DB: gnlenfn
+      TZ: Asia/Seoul
+    volumes:
+      - postgres-custom-db-volume:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      network_custom:
+        ipv4_address: 172.28.0.3
+
   postgres:
     image: postgres:13
     environment:
@@ -100,6 +116,11 @@ services:
       retries: 5
       start_period: 5s
     restart: always
+    ports:
+      - "5431:5432"
+    networks:
+      network_custom:
+        ipv4_address: 172.28.0.4
 
   redis:
     image: redis:latest
@@ -112,6 +133,9 @@ services:
       retries: 50
       start_period: 30s
     restart: always
+    networks:
+      network_custom:
+        ipv4_address: 172.28.0.5
 
   airflow-webserver:
     <<: *airflow-common
@@ -129,6 +153,9 @@ services:
       <<: *airflow-common-depends-on
       airflow-init:
         condition: service_completed_successfully
+    networks:
+      network_custom:
+        ipv4_address: 172.28.0.6
 
   airflow-scheduler:
     <<: *airflow-common
@@ -144,6 +171,9 @@ services:
       <<: *airflow-common-depends-on
       airflow-init:
         condition: service_completed_successfully
+    networks:
+      network_custom:
+        ipv4_address: 172.28.0.7
 
   airflow-worker:
     <<: *airflow-common
@@ -167,6 +197,9 @@ services:
       <<: *airflow-common-depends-on
       airflow-init:
         condition: service_completed_successfully
+    networks:
+      network_custom:
+        ipv4_address: 172.28.0.8
 
   airflow-triggerer:
     <<: *airflow-common
@@ -182,6 +215,9 @@ services:
       <<: *airflow-common-depends-on
       airflow-init:
         condition: service_completed_successfully
+    networks:
+      network_custom:
+        ipv4_address: 172.28.0.9
 
   airflow-init:
     <<: *airflow-common
@@ -260,6 +296,9 @@ services:
     user: "0:0"
     volumes:
       - ${AIRFLOW_PROJ_DIR:-.}:/sources
+    networks:
+      network_custom:
+        ipv4_address: 172.28.0.10
 
   airflow-cli:
     <<: *airflow-common
@@ -298,3 +337,13 @@ services:
 
 volumes:
   postgres-db-volume:
+  postgres-custom-db-volume:
+
+networks:
+  network_custom:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.28.0.0/16
+          gateway: 172.28.0.1
